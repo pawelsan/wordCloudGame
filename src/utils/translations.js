@@ -9,4 +9,5 @@ export const translations = {
   endText1: "Congratulaitions",
   endText2: "Your score:",
   endText3: "points",
+  endText4: "Good luck next time",
 };

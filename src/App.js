@@ -50,6 +50,23 @@ function App() {
     setGameStarted(false);
     setAnswersChecked(false);
     setGameFinished(true);
+    const scoreCalculation = () => {
+      let value = 0;
+      chosenWords.forEach((word) => {
+        if (correctWords.includes(word)) {
+          value = value + 2;
+        } else {
+          value = value - 1;
+        }
+      });
+      correctWords.forEach((word) => {
+        if (!chosenWords.includes(word)) {
+          value = value - 1;
+        }
+      });
+      return value;
+    };
+    setScore(scoreCalculation());
   };
 
   const handleNick = (e) => {
@@ -98,6 +115,7 @@ function App() {
         endText1={translations.endText1}
         endText2={translations.endText2}
         endText3={translations.endText3}
+        endText4={translations.endText4}
       />
     );
   } else {
