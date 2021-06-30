@@ -8,6 +8,8 @@ const GameScreen = ({
   handleWordClick,
   answersChecked,
   correctWords,
+  handleFinishGame,
+  finishButton,
 }) => {
   const wordList =
     words &&
@@ -51,9 +53,9 @@ const GameScreen = ({
       <button
         className="game--button"
         type="submit"
-        onClick={handleCheckAnswers}
+        onClick={!answersChecked ? handleCheckAnswers : handleFinishGame}
       >
-        {checkButton}
+        {!answersChecked ? checkButton : finishButton}
       </button>
     </>
   );

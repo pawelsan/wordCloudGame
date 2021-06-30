@@ -42,6 +42,7 @@ button {
   padding: 10px 30px;
   border: none;
   text-decoration: none;
+  outline: none;
   color: #a5c6ee;
   border: 1px solid #a5c6ee;
   background-color: #ffffff;

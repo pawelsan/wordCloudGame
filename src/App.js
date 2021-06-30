@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import HomeScreen from "./views/HomeScreen.js";
 import GameScreen from "./views/GameScreen.js";
-import ResultScreen from "./views/GameScreen.js";
+import ResultScreen from "./views/ResultScreen.js";
 import { translations } from "./utils/translations.js";
 import { getWords } from "./api";
 
@@ -15,8 +15,6 @@ function App() {
   const [chosenWords, setChosenWords] = useState([]);
   const [correctWords, setCorrectWords] = useState([]);
   const [gameTitle, setGameTitle] = useState(null);
-
-  console.log(chosenWords);
 
   useEffect(() => {
     const doGetWords = async () => {
@@ -61,7 +59,6 @@ function App() {
   const handleWordClick = (e) => {
     const copyChosenWords = [...chosenWords];
     const chosenWord = e.target.innerText;
-    // const chosenWordId = e.target.id;
     const wordAlreadyChosen = copyChosenWords.includes(chosenWord);
     if (wordAlreadyChosen) {
       copyChosenWords.splice(
@@ -72,7 +69,6 @@ function App() {
       copyChosenWords.push(chosenWord);
     }
     setChosenWords([...copyChosenWords]);
-    // console.log(e.target);
   };
 
   let section = "";
@@ -90,6 +86,8 @@ function App() {
         handleCheckAnswers={handleCheckAnswers}
         answersChecked={answersChecked}
         correctWords={correctWords}
+        finishButton={translations.finishButton}
+        handleFinishGame={handleFinishGame}
       />
     );
   } else if (gameFinished) {
