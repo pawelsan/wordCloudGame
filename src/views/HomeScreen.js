@@ -10,7 +10,7 @@ const HomeScreen = ({
 }) => {
   return (
     <>
-      <h1>{mainTitle}</h1>
+      <h1 className="game--main-title">{mainTitle}</h1>
       <form>
         <input
           type="text"
@@ -20,7 +20,7 @@ const HomeScreen = ({
           value={nick}
         />
         <button onClick={(e) => handleStartGame(e)}>{startButton}</button>
-        {nickError && <span>{nickErrorMessage}</span>}
+        {nickError && <div className="error--message">{nickErrorMessage}</div>}
       </form>
     </>
   );

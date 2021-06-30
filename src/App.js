@@ -1,18 +1,19 @@
 import { useState, useEffect } from "react";
 import HomeScreen from "./views/HomeScreen.js";
 import GameScreen from "./views/GameScreen.js";
+import ResultScreen from "./views/GameScreen.js";
 import { translations } from "./utils/translations.js";
 import { getWords } from "./api";
-import "./App.css";
 
 function App() {
-  const [nick, setNick] = useState(null);
+  const [nick, setNick] = useState("");
   const [nickError, setNickError] = useState(false);
   const [gameStarted, setGameStarted] = useState(false);
   const [answersChecked, setAnswersChecked] = useState(false);
   const [gameFinished, setGameFinished] = useState(false);
   const [words, setWords] = useState(null);
   const [chosenWords, setChosenWords] = useState([]);
+  const [correctWords, setCorrectWords] = useState([]);
   const [gameTitle, setGameTitle] = useState(null);
 
   console.log(chosenWords);
@@ -22,6 +23,7 @@ function App() {
       try {
         const result = await getWords();
         setWords(result.all_words);
+        setCorrectWords(result.good_words);
         setGameTitle(result.question);
       } catch (error) {
         console.log(error);
@@ -43,11 +45,11 @@ function App() {
   };
 
   const handleCheckAnswers = () => {
-    setGameStarted(false);
     setAnswersChecked(true);
   };
 
   const handleFinishGame = () => {
+    setGameStarted(false);
     setAnswersChecked(false);
     setGameFinished(true);
   };
@@ -80,14 +82,18 @@ function App() {
       <GameScreen
         gameTitle={gameTitle}
         words={words}
+        chosenWords={chosenWords}
         loading={translations.loading}
+        gameFinished={gameFinished}
         checkButton={translations.checkButton}
         handleWordClick={handleWordClick}
         handleCheckAnswers={handleCheckAnswers}
+        answersChecked={answersChecked}
+        correctWords={correctWords}
       />
     );
-  } else if (answersChecked) {
-    section = "answer check";
+  } else if (gameFinished) {
+    section = <ResultScreen />;
   } else {
     section = (
       <HomeScreen
