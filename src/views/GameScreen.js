@@ -4,9 +4,15 @@ const GameScreen = ({
   loading,
   checkButton,
   handleCheckAnswers,
+  handleWordClick,
 }) => {
   const wordList =
-    words && words.map((word, index) => <li key={index}>{word}</li>);
+    words &&
+    words.map((word, index) => (
+      <li key={index} id={index} onClick={(e) => handleWordClick(e)}>
+        {word}
+      </li>
+    ));
   return (
     <>
       <span>{gameTitle ? gameTitle : loading}</span>

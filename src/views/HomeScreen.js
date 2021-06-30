@@ -1,18 +1,26 @@
-const HomeScreen = (props) => {
+const HomeScreen = ({
+  mainTitle,
+  nickPlaceholder,
+  handleNick,
+  nick,
+  nickError,
+  nickErrorMessage,
+  handleStartGame,
+  startButton,
+}) => {
   return (
     <>
-      <h1>{props.mainTitle}</h1>
+      <h1>{mainTitle}</h1>
       <form>
         <input
           type="text"
           id="nick"
-          placeholder={props.nickPlaceholder}
-          onChange={(e) => props.handleNick(e)}
-          value={props.nick}
+          placeholder={nickPlaceholder}
+          onChange={(e) => handleNick(e)}
+          value={nick}
         />
-        <button type="submit" onClick={props.handleStartGame}>
-          {props.startButton}
-        </button>
+        <button onClick={(e) => handleStartGame(e)}>{startButton}</button>
+        {nickError && <span>{nickErrorMessage}</span>}
       </form>
     </>
   );

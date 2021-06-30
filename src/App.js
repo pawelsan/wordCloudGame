@@ -7,22 +7,22 @@ import "./App.css";
 
 function App() {
   const [nick, setNick] = useState(null);
+  const [nickError, setNickError] = useState(false);
   const [gameStarted, setGameStarted] = useState(false);
   const [answersChecked, setAnswersChecked] = useState(false);
   const [gameFinished, setGameFinished] = useState(false);
   const [words, setWords] = useState(null);
+  const [chosenWords, setChosenWords] = useState([]);
   const [gameTitle, setGameTitle] = useState(null);
-  console.log(words);
+
+  console.log(chosenWords);
 
   useEffect(() => {
-    const createGameHeadline = (nick, question) => {
-      return `Hello ${nick}, please ${question}`;
-    };
     const doGetWords = async () => {
       try {
         const result = await getWords();
         setWords(result.all_words);
-        setGameTitle(createGameHeadline(nick, result.question));
+        setGameTitle(result.question);
       } catch (error) {
         console.log(error);
       }
@@ -32,8 +32,14 @@ function App() {
     }
   }, [gameStarted]);
 
-  const handleStartGame = () => {
-    setGameStarted(true);
+  const handleStartGame = (e) => {
+    console.log(e);
+    e.preventDefault();
+    if (nick && nick.length > 2) {
+      setGameStarted(true);
+    } else {
+      setNickError(true);
+    }
   };
 
   const handleCheckAnswers = () => {
@@ -50,6 +56,23 @@ function App() {
     setNick(e.target.value);
   };
 
+  const handleWordClick = (e) => {
+    const copyChosenWords = [...chosenWords];
+    const chosenWord = e.target.innerText;
+    // const chosenWordId = e.target.id;
+    const wordAlreadyChosen = copyChosenWords.includes(chosenWord);
+    if (wordAlreadyChosen) {
+      copyChosenWords.splice(
+        copyChosenWords.findIndex((word) => word === chosenWord),
+        1
+      );
+    } else {
+      copyChosenWords.push(chosenWord);
+    }
+    setChosenWords([...copyChosenWords]);
+    // console.log(e.target);
+  };
+
   let section = "";
 
   if (gameStarted) {
@@ -59,6 +82,7 @@ function App() {
         words={words}
         loading={translations.loading}
         checkButton={translations.checkButton}
+        handleWordClick={handleWordClick}
         handleCheckAnswers={handleCheckAnswers}
       />
     );
@@ -70,6 +94,8 @@ function App() {
         mainTitle={translations.mainTitle}
         nickPlaceholder={translations.nickPlaceholder}
         nick={nick}
+        nickError={nickError}
+        nickErrorMessage={translations.nickErrorMessage}
         startButton={translations.startButton}
         handleNick={handleNick}
         handleStartGame={handleStartGame}
