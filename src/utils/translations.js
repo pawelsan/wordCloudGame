@@ -6,4 +6,7 @@ export const translations = {
   checkButton: "check answers",
   finishButton: "finishGame",
   loading: "Loading...",
+  endText1: "Congratulaitions",
+  endText2: "Your score:",
+  endText3: "points",
 };

@@ -15,6 +15,7 @@ function App() {
   const [chosenWords, setChosenWords] = useState([]);
   const [correctWords, setCorrectWords] = useState([]);
   const [gameTitle, setGameTitle] = useState(null);
+  const [score, setScore] = useState(null);
 
   useEffect(() => {
     const doGetWords = async () => {
@@ -33,7 +34,6 @@ function App() {
   }, [gameStarted]);
 
   const handleStartGame = (e) => {
-    console.log(e);
     e.preventDefault();
     if (nick && nick.length > 2) {
       setGameStarted(true);
@@ -91,7 +91,15 @@ function App() {
       />
     );
   } else if (gameFinished) {
-    section = <ResultScreen />;
+    section = (
+      <ResultScreen
+        score={score}
+        nick={nick}
+        endText1={translations.endText1}
+        endText2={translations.endText2}
+        endText3={translations.endText3}
+      />
+    );
   } else {
     section = (
       <HomeScreen

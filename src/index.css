@@ -11,6 +11,12 @@ body {
   letter-spacing: 1px;
 }
 
+.App {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+}
+
 .game--main-title {
   margin: 10px;
 }
@@ -39,20 +45,22 @@ li {
 
 button {
   margin: 10px;
-  padding: 10px 30px;
+  padding: 10px 40px;
   border: none;
+  border-radius: 10px;
   text-decoration: none;
   outline: none;
-  color: #a5c6ee;
-  border: 1px solid #a5c6ee;
+  color: #61b8db;
+  border: 2px solid #61b8db;
   background-color: #ffffff;
+  font-size: 18px;
   cursor: pointer;
   text-align: center;
   transition: 0.5s;
 }
 
 button:hover {
-  background-color: #a5c6ee;
+  background-color: #61b8db;
   color: #ffffff;
 }
 
@@ -84,4 +92,45 @@ button:hover {
 
 .correct {
   color: green;
+}
+
+.incorrect,
+.correct {
+  position: relative;
+}
+
+.incorrect::before,
+.correct::before {
+  position: absolute;
+  bottom: 105%;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.correct::before {
+  content: "Good";
+  color: lightgreen;
+}
+
+.incorrect::before {
+  content: "Bad";
+  color: lightsalmon;
+}
+
+.end--screen {
+  position: absolute;
+  top: 20%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.end--text,
+.end--result {
+  display: block;
+  margin: 10px;
+  font-size: 24px;
+  font-weight: bold;
+}
+.end--result {
+  color: #61b8db;
 }
