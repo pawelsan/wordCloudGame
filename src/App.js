@@ -1,35 +1,42 @@
 import { useState, useEffect } from "react";
-import HomeScreen from "./views/homeScreen.js";
+import HomeScreen from "./views/HomeScreen.js";
+import GameScreen from "./views/GameScreen.js";
 import { translations } from "./utils/translations.js";
 import { getWords } from "./api";
 import "./App.css";
 
 function App() {
-  const [nick, setNick] = "";
+  const [nick, setNick] = useState(null);
   const [gameStarted, setGameStarted] = useState(false);
   const [answersChecked, setAnswersChecked] = useState(false);
   const [gameFinished, setGameFinished] = useState(false);
   const [words, setWords] = useState(null);
+  const [gameTitle, setGameTitle] = useState(null);
   console.log(words);
 
   useEffect(() => {
+    const createGameHeadline = (nick, question) => {
+      return `Hello ${nick}, please ${question}`;
+    };
     const doGetWords = async () => {
       try {
         const result = await getWords();
-        setWords(result);
+        setWords(result.all_words);
+        setGameTitle(createGameHeadline(nick, result.question));
       } catch (error) {
         console.log(error);
       }
     };
-
-    doGetWords();
-  }, []);
+    if (gameStarted) {
+      doGetWords();
+    }
+  }, [gameStarted]);
 
   const handleStartGame = () => {
     setGameStarted(true);
   };
 
-  const handleAnswersChecked = () => {
+  const handleCheckAnswers = () => {
     setGameStarted(false);
     setAnswersChecked(true);
   };
@@ -46,7 +53,17 @@ function App() {
   let section = "";
 
   if (gameStarted) {
-    section = "game started";
+    section = (
+      <GameScreen
+        gameTitle={gameTitle}
+        words={words}
+        loading={translations.loading}
+        checkButton={translations.checkButton}
+        handleCheckAnswers={handleCheckAnswers}
+      />
+    );
+  } else if (answersChecked) {
+    section = "answer check";
   } else {
     section = (
       <HomeScreen

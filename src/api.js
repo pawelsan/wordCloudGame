@@ -3,8 +3,9 @@ export const getWords = () =>
     if (!words) {
       return setTimeout(() => reject(new Error("Users not found")), 250);
     }
+    const randomIndex = Math.floor(Math.random() * words.length);
 
-    setTimeout(() => resolve(Object.values(words)), 250);
+    setTimeout(() => resolve(Object(words[randomIndex])), 250);
   });
 
 let words = [
